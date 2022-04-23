@@ -29,8 +29,8 @@ class _MainLayer extends StatefulWidget {
 }
 
 class _MainLayerState extends State<_MainLayer> {
-  double xoffSet = 0;
-  double yoffSet = 0;
+  double xOffSet = 0;
+  double yOffSet = 0;
   double angle = 0;
 
   bool isOpen = false;
@@ -38,7 +38,7 @@ class _MainLayerState extends State<_MainLayer> {
   @override
   Widget build(BuildContext context) => AnimatedContainer(
         transform: Matrix4.identity()
-          ..translate(xoffSet, yoffSet)
+          ..translate(xOffSet, yOffSet)
           ..rotateZ(angle),
         duration: const Duration(milliseconds: 250),
         child: Container(
@@ -60,15 +60,15 @@ class _MainLayerState extends State<_MainLayer> {
                         ),
                         onPressed: () {
                           setState(() {
-                            xoffSet = 150;
-                            yoffSet = 80;
+                            xOffSet = 150;
+                            yOffSet = 80;
                             angle = -0.2;
                             isOpen = true;
                           });
 
                           secondLayerState.setState(() {
-                            secondLayerState.xoffSet = 122;
-                            secondLayerState.yoffSet = 110;
+                            secondLayerState.xOffSet = 122;
+                            secondLayerState.yOffSet = 110;
                             secondLayerState.angle = -0.275;
                           });
                         })
@@ -78,15 +78,15 @@ class _MainLayerState extends State<_MainLayer> {
                         onPressed: () {
                           if (isOpen) {
                             setState(() {
-                              xoffSet = 0;
-                              yoffSet = 0;
+                              xOffSet = 0;
+                              yOffSet = 0;
                               angle = 0;
                               isOpen = false;
                             });
 
                             secondLayerState.setState(() {
-                              secondLayerState.xoffSet = 0;
-                              secondLayerState.yoffSet = 0;
+                              secondLayerState.xOffSet = 0;
+                              secondLayerState.yOffSet = 0;
                               secondLayerState.angle = 0;
                             });
                           }
@@ -123,8 +123,8 @@ class _SecondLayer extends StatefulWidget {
 }
 
 class _SecondLayerState extends State<_SecondLayer> {
-  double xoffSet = 0;
-  double yoffSet = 0;
+  double xOffSet = 0;
+  double yOffSet = 0;
   double angle = 0;
 
   @override
@@ -132,7 +132,7 @@ class _SecondLayerState extends State<_SecondLayer> {
     secondLayerState = this;
     return AnimatedContainer(
       transform: Matrix4.identity()
-        ..translate(xoffSet, yoffSet)
+        ..translate(xOffSet, yOffSet)
         ..rotateZ(angle),
       duration: const Duration(milliseconds: 550),
       decoration: BoxDecoration(
@@ -153,9 +153,7 @@ class _ThirdLayer extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FlutterLogo(
-                size: context.screenWidth / 4,
-              ),
+              Image.asset('assets/images/icon.png', width: context.screenWidth / 5),
               Row(
                 children: [
                   'Answeree'.text.white.extraBold.underline.make(),

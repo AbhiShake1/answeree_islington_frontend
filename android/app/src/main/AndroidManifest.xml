@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abhi.fyp.answereeislington.answeree_islington_frontend">
    <application
-        android:label="answeree_islington_frontend"
+        android:label="Answeree Islington"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
