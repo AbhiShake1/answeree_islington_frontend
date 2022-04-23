@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:answeree_islington_frontend/core/constants.dart';
-import 'package:answeree_islington_frontend/core/widgets/neumorphic_button/providers/click_provider.dart';
-import 'package:answeree_islington_frontend/core/widgets/neumorphic_button/providers/turns_provider.dart';
+import 'package:answeree_islington_frontend/core/widgets/animated_neumorphic_button/providers/click_provider.dart';
+import 'package:answeree_islington_frontend/core/widgets/animated_neumorphic_button/providers/turns_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -32,7 +32,10 @@ class AnimatedNeumorphicButton extends HookConsumerWidget {
     //same calculation for these, but with respect to button size instead of screen size
     final borderRadius = ((width + height) / 2) / 6;
     final shadowBlurRadius = ((width + height) / 2) * .6;
-    //TODO: Make offsets dynamic based on button size
+    //similar to border radii, calculating offests
+    //one of the offsets: used for both x and y for both button states
+    final offset1 = width * .4;
+    final offset2 = -offset1;
     final animationController =
         useAnimationController(duration: kCustomAnimationDuration);
     return AnimatedRotation(
@@ -53,10 +56,10 @@ class AnimatedNeumorphicButton extends HookConsumerWidget {
           ref.read(isClickedRef.notifier).flip();
           onPressed?.call();
         },
-        child: Opacity(
-          opacity: kCustomOpacity,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: kCustomBlur, sigmaY: kCustomBlur),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(),
+          child: Opacity(
+            opacity: kCustomOpacity,
             child: AnimatedContainer(
               curve: kCustomAnimationCurve,
               duration: kCustomAnimationDuration,
@@ -66,16 +69,16 @@ class AnimatedNeumorphicButton extends HookConsumerWidget {
                 boxShadow: [
                   BoxShadow(
                     blurRadius: shadowBlurRadius,
-                    offset: ref.watch(isClickedRef)
-                        ? const Offset(20, -20)
-                        : const Offset(20, 20),
+                    offset: ref.read(isClickedRef)
+                        ? Offset(offset1, offset2)
+                        : Offset(offset1, offset1),
                     color: Colors.grey,
                   ),
                   BoxShadow(
                     blurRadius: shadowBlurRadius,
-                    offset: ref.watch(isClickedRef)
-                        ? const Offset(-20, 20)
-                        : const Offset(-20, -20),
+                    offset: ref.read(isClickedRef)
+                        ? Offset(offset2, offset1)
+                        : Offset(offset2, offset2),
                     color: Colors.white,
                   ),
                 ],
