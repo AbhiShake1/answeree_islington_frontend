@@ -1,13 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Preferences {
-  Preferences._();
+late final SharedPreferences _pref;
 
-  static late final SharedPreferences _pref;
+Future<void> initializeApp() async => _pref = await SharedPreferences.getInstance();
 
-  static Future<void> initializeApp() async =>
-      _pref = await SharedPreferences.getInstance();
-
-  static bool getBool(String key) => _pref.getBool(key) ?? false;
-  static void setBool(String key, bool value) => _pref.setBool(key, value);
-}
+bool getBool(String key) => _pref.getBool(key) ?? false;
+void setBool(String key, bool value) => _pref.setBool(key, value);
