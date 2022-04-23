@@ -160,6 +160,22 @@ class _ThirdLayer extends StatelessWidget {
                   'Islington'.text.red600.extraBold.scale(1.1).underline.make(),
                 ],
               ),
+              TextButton(
+                onPressed: () => showAboutDialog(
+                  context: context,
+                  applicationIcon: Image.asset(
+                    'assets/images/icon.png',
+                    scale: 15,
+                  ),
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.facebook, color: Colors.blue),
+                    ),
+                  ],
+                ),
+                child: 'About'.text.white.extraBold.make(),
+              ),
             ],
           ).pOnly(top: 100),
         ).pOnly(left: 15),
