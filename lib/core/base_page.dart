@@ -1,3 +1,5 @@
+import 'package:answeree_islington_frontend/core/constants.dart';
+import 'package:answeree_islington_frontend/core/widgets/animated_neumorphic_button.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -40,7 +42,7 @@ class _MainLayerState extends State<_MainLayer> {
         transform: Matrix4.identity()
           ..translate(xOffSet, yOffSet)
           ..rotateZ(angle),
-        duration: const Duration(milliseconds: 250),
+        duration: kCustomAnimationDuration,
         child: Container(
           height: context.screenHeight,
           width: context.screenWidth,
@@ -52,46 +54,38 @@ class _MainLayerState extends State<_MainLayer> {
           child: SafeArea(
             child: Stack(
               children: [
-                !isOpen
-                    ? IconButton(
-                        icon: const Icon(
-                          Icons.menu,
-                          color: Color(0xFF1f186f),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            xOffSet = 150;
-                            yOffSet = 80;
-                            angle = -0.2;
-                            isOpen = true;
-                          });
+                AnimatedNeumorphicButton(
+                  animatedIcon: AnimatedIcons.menu_close,
+                  onPressed: () {
+                    if (!isOpen) {
+                      setState(() {
+                        xOffSet = 150;
+                        yOffSet = 80;
+                        angle = -0.2;
+                        isOpen = true;
+                      });
 
-                          secondLayerState.setState(() {
-                            secondLayerState.xOffSet = 122;
-                            secondLayerState.yOffSet = 110;
-                            secondLayerState.angle = -0.275;
-                          });
-                        })
-                    : IconButton(
-                        icon: const Icon(Icons.arrow_back_ios,
-                            color: Color(0xFF1f186f)),
-                        onPressed: () {
-                          if (isOpen) {
-                            setState(() {
-                              xOffSet = 0;
-                              yOffSet = 0;
-                              angle = 0;
-                              isOpen = false;
-                            });
+                      secondLayerState.setState(() {
+                        secondLayerState.xOffSet = 122;
+                        secondLayerState.yOffSet = 110;
+                        secondLayerState.angle = -0.275;
+                      });
+                    } else {
+                      setState(() {
+                        xOffSet = 0;
+                        yOffSet = 0;
+                        angle = 0;
+                        isOpen = false;
+                      });
 
-                            secondLayerState.setState(() {
-                              secondLayerState.xOffSet = 0;
-                              secondLayerState.yOffSet = 0;
-                              secondLayerState.angle = 0;
-                            });
-                          }
-                        },
-                      ),
+                      secondLayerState.setState(() {
+                        secondLayerState.xOffSet = 0;
+                        secondLayerState.yOffSet = 0;
+                        secondLayerState.angle = 0;
+                      });
+                    }
+                  },
+                ).p(5),
                 widget.child,
               ],
             ),
@@ -134,7 +128,7 @@ class _SecondLayerState extends State<_SecondLayer> {
       transform: Matrix4.identity()
         ..translate(xOffSet, yOffSet)
         ..rotateZ(angle),
-      duration: const Duration(milliseconds: 550),
+      duration: kCustomAnimationDuration * 2,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: const Color(0xFF4c41a3)),
     );
