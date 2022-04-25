@@ -8,5 +8,6 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Lottie.asset(
         'assets/lottie/loading.json',
-      ).scale(scaleValue: .12);
+        height: context.screenWidth * .135,
+      );
 }

@@ -9,15 +9,12 @@ class BasePage extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          children: [
-            const _FirstLayer(),
-            const _SecondLayer(),
-            const _ThirdLayer(),
-            _MainLayer(child: child),
-          ],
-        ),
+  Widget build(BuildContext context) => Stack(
+        children: [
+          const _FirstLayer(),
+          const _SecondLayer(),
+          _MainLayer(child: child),
+        ],
       );
 }
 
@@ -33,7 +30,7 @@ class _MainLayer extends StatefulWidget {
 class _MainLayerState extends State<_MainLayer> {
   double xOffSet = 0;
   double yOffSet = 0;
-  double angle = 0;
+  double scaleOffset = 1;
 
   bool isOpen = false;
 
@@ -41,53 +38,39 @@ class _MainLayerState extends State<_MainLayer> {
   Widget build(BuildContext context) => AnimatedContainer(
         transform: Matrix4.identity()
           ..translate(xOffSet, yOffSet)
-          ..rotateZ(angle),
+          ..scale(scaleOffset, scaleOffset),
         duration: kCustomAnimationDuration,
         child: Container(
           height: context.screenHeight,
           width: context.screenWidth,
           decoration: BoxDecoration(
-            color: Colors.blue[200],
             borderRadius:
                 isOpen ? BorderRadius.circular(10) : BorderRadius.circular(0),
           ),
           child: SafeArea(
-            child: Stack(
-              children: [
-                AnimatedNeumorphicButton(
+            child: Scaffold(
+              backgroundColor: kCustomBlackColor,
+              appBar: AppBar(
+                leading: AnimatedNeumorphicButton(
                   animatedIcon: AnimatedIcons.menu_close,
                   onPressed: () {
-                    if (!isOpen) {
-                      setState(() {
-                        xOffSet = 150;
-                        yOffSet = 80;
-                        angle = -0.2;
-                        isOpen = true;
-                      });
-
-                      secondLayerState.setState(() {
-                        secondLayerState.xOffSet = 122;
-                        secondLayerState.yOffSet = 110;
-                        secondLayerState.angle = -0.275;
-                      });
-                    } else {
-                      setState(() {
+                    setState(() {
+                      if (isOpen) {
                         xOffSet = 0;
                         yOffSet = 0;
-                        angle = 0;
+                        scaleOffset = 1;
                         isOpen = false;
-                      });
-
-                      secondLayerState.setState(() {
-                        secondLayerState.xOffSet = 0;
-                        secondLayerState.yOffSet = 0;
-                        secondLayerState.angle = 0;
-                      });
-                    }
+                      } else {
+                        xOffSet = context.screenWidth / 2;
+                        yOffSet = context.screenHeight / 4;
+                        scaleOffset = .5;
+                        isOpen = true;
+                      }
+                    });
                   },
-                ).p(5),
-                widget.child,
-              ],
+                ),
+              ),
+              body: widget.child,
             ),
           ),
         ),
@@ -102,59 +85,64 @@ class _FirstLayer extends StatelessWidget {
         height: context.screenHeight,
         width: context.screenWidth,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(colors: [Color(0xFF4c41a3), Color(0xFF1f186f)]),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            colors: [kCustomBlackColor, Colors.black],
+          ),
         ),
       );
 }
 
-late _SecondLayerState secondLayerState;
-
-class _SecondLayer extends StatefulWidget {
+class _SecondLayer extends StatelessWidget {
   const _SecondLayer({Key? key}) : super(key: key);
 
   @override
-  _SecondLayerState createState() => _SecondLayerState();
-}
-
-class _SecondLayerState extends State<_SecondLayer> {
-  double xOffSet = 0;
-  double yOffSet = 0;
-  double angle = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    secondLayerState = this;
-    return AnimatedContainer(
-      transform: Matrix4.identity()
-        ..translate(xOffSet, yOffSet)
-        ..rotateZ(angle),
-      duration: kCustomAnimationDuration * 2,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: const Color(0xFF4c41a3)),
-    );
-  }
-}
-
-class _ThirdLayer extends StatelessWidget {
-  const _ThirdLayer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Container(
-        height: context.screenHeight,
-        width: context.screenWidth,
-        color: Colors.transparent,
-        child: SizedBox(
+  Widget build(BuildContext context) => Scaffold(
+        body: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/images/icon.png', width: context.screenWidth / 5),
+              Image.asset('assets/images/icon.png', width: context.screenWidth / 8),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   'Answeree'.text.white.extraBold.underline.make(),
                   'Islington'.text.red600.extraBold.scale(1.1).underline.make(),
                 ],
               ),
-              TextButton(
+              const Spacer(),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.question_answer_outlined),
+                label: const Text('Question'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.tag),
+                label: const Text('Tags'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.supervised_user_circle_sharp),
+                label: const Text('Users'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.badge_outlined),
+                label: const Text('Badges'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.device_unknown),
+                label: const Text('Unanswered'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.more_horiz_outlined),
+                label: const Text('More Menu'),
+              ),
+              const Spacer(),
+              TextButton.icon(
                 onPressed: () => showAboutDialog(
                   context: context,
                   applicationIcon: Image.asset(
@@ -168,7 +156,8 @@ class _ThirdLayer extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: 'About'.text.white.extraBold.make(),
+                icon: const Icon(Icons.info_outline),
+                label: 'About'.text.extraBold.make(),
               ),
             ],
           ).pOnly(top: 100),

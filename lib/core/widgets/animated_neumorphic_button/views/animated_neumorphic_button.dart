@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:answeree_islington_frontend/core/constants.dart';
 import 'package:answeree_islington_frontend/core/widgets/animated_neumorphic_button/providers/click_provider.dart';
 import 'package:answeree_islington_frontend/core/widgets/animated_neumorphic_button/providers/turns_provider.dart';
@@ -29,13 +27,8 @@ class AnimatedNeumorphicButton extends HookConsumerWidget {
     final size = context.screenWidth * 0.0847;
     final height = this.height ?? size;
     final width = this.width ?? size;
-    //same calculation for these, but with respect to button size instead of screen size
-    final borderRadius = ((width + height) / 2) / 6;
-    final shadowBlurRadius = ((width + height) / 2) * .6;
     //similar to border radii, calculating offests
     //one of the offsets: used for both x and y for both button states
-    final offset1 = width * .4;
-    final offset2 = -offset1;
     final animationController =
         useAnimationController(duration: kCustomAnimationDuration);
     return AnimatedRotation(
@@ -56,47 +49,13 @@ class AnimatedNeumorphicButton extends HookConsumerWidget {
           ref.read(isClickedRef.notifier).flip();
           onPressed?.call();
         },
-        child: BackdropFilter(
-          filter: ImageFilter.blur(),
-          child: Opacity(
-            opacity: kCustomOpacity,
-            child: AnimatedContainer(
-              curve: kCustomAnimationCurve,
-              duration: kCustomAnimationDuration,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(borderRadius),
-                color: kCustomWhiteColor,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: shadowBlurRadius,
-                    offset: ref.read(isClickedRef)
-                        ? Offset(offset1, offset2)
-                        : Offset(offset1, offset1),
-                    color: Colors.grey,
-                  ),
-                  BoxShadow(
-                    blurRadius: shadowBlurRadius,
-                    offset: ref.read(isClickedRef)
-                        ? Offset(offset2, offset1)
-                        : Offset(offset2, offset2),
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-              child: SizedBox(
-                height: height,
-                width: width,
-                child: Center(
-                  child: AnimatedIcon(
-                    icon: animatedIcon,
-                    progress: animationController,
-                    //size (average of width and height) times two-third
-                    size: ((width + height) / 2) * .66,
-                    color: kCustomBlackColor,
-                  ),
-                ),
-              ),
-            ),
+        child: Center(
+          child: AnimatedIcon(
+            icon: animatedIcon,
+            progress: animationController,
+            //size (average of width and height) times two-third
+            size: ((width + height) / 2) * .66,
+            color: kCustomWhiteColor,
           ),
         ),
       ),

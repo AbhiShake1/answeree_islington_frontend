@@ -7,8 +7,6 @@ import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../../../core/constants/constant_durations.dart';
-
 class OnboardingPage extends HookWidget {
   const OnboardingPage({Key? key}) : super(key: key);
 
@@ -39,7 +37,8 @@ class OnboardingPage extends HookWidget {
           physics: const BouncingScrollPhysics(),
           children: pages,
         ).pOnly(bottom: 80),
-        bottomSheet: SizedBox(
+        bottomSheet: Container(
+          color: Colors.transparent,
           height: 80,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +84,7 @@ class _CustomPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Lottie.asset(assetPath),
+            Lottie.asset(assetPath, height: context.screenHeight / 2),
           ],
         ),
       );

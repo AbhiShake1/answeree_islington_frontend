@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: const ColorScheme.dark(),
           useMaterial3: true,
-          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: Colors.transparent,
+          appBarTheme: const AppBarTheme(color: Colors.transparent, elevation: 0),
         ),
         home: preferences.getBool('intro_shown_key')
             ? const HomePage()

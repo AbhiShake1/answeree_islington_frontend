@@ -1,1 +1,1 @@
-const kCustomAnimationDuration = Duration(milliseconds: 400);
+const kCustomAnimationDuration = Duration(milliseconds: 250);
